@@ -1,5 +1,5 @@
 {
-  "name": "code-review",
+  "name": "@code-review/server",
   "version": "0.0.1",
   "description": "Awesome project developed with TypeORM.",
   "devDependencies": {
@@ -15,6 +15,7 @@
     "typescript": "3.1.6"
   },
   "dependencies": {
+    "@code-review/common": "1.0.0",
     "@graphql-modules/epoxy": "^0.2.4",
     "@graphql-modules/sonar": "^0.2.4",
     "@types/yup": "^0.26.2",
