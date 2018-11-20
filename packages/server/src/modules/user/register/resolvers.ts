@@ -3,6 +3,7 @@ import * as argon from "argon2";
 import { MutationResolvers } from "../../../types";
 import { User } from "../../../entity/User";
 import { registerSchema } from "@code-review/common";
+import { formatYupErrors } from "../../../utils/formatYupErrors";
 
 export const resolvers: MutationResolvers.Resolvers = {
   register: async (_, { input }) => {
@@ -11,7 +12,10 @@ export const resolvers: MutationResolvers.Resolvers = {
         abortEarly: false
       });
     } catch (err) {
-      () => err;
+      console.log("error!: ", err);
+      return {
+        errors: formatYupErrors(err)
+      };
     }
 
     const { username, email, password } = input;
