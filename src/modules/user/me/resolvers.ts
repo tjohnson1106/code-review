@@ -1,5 +1,9 @@
 export default {
-  Query: {
-    me: () => null
+  Mutation: {
+    // register: (_, { input: { username, email, password } }) => {
+    //   {
+    //   }
+    // }
+    register: () => {}
   }
 };
