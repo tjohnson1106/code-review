@@ -2,14 +2,19 @@ import * as argon from "argon2";
 
 import { MutationResolvers } from "../../../types";
 import { User } from "../../../entity/User";
+import { registerSchema } from "@code-review/common";
 
 export const resolvers: MutationResolvers.Resolvers = {
-  register: async (_, { input: { username, email, password } }) => {
+  register: async (_, { input }) => {
+    try {
+      await registerSchema.validate(input, {
+        abortEarly: false
+      });
+    } catch (err) {
+      () => err;
+    }
 
-
-           
-
-
+    const { username, email, password } = input;
 
     const hashedPassword = await argon.hash(password);
 
