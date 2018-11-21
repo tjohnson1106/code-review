@@ -1,3 +1,9 @@
+export interface LoginInput {
+  usernameOrEmail: string;
+
+  password: string;
+}
+
 export interface RegisterInput {
   username: string;
 
@@ -23,11 +29,15 @@ export interface User {
 }
 
 export interface Mutation {
+  login: LoginResponse;
+
   register: RegisterResponse;
 }
 
-export interface RegisterResponse {
+export interface LoginResponse {
   errors?: Error[] | null;
+
+  user: User;
 }
 
 export interface Error {
@@ -36,10 +46,17 @@ export interface Error {
   message: string;
 }
 
+export interface RegisterResponse {
+  errors?: Error[] | null;
+}
+
 // ====================================================
 // Arguments
 // ====================================================
 
+export interface LoginMutationArgs {
+  input: LoginInput;
+}
 export interface RegisterMutationArgs {
   input: RegisterInput;
 }
@@ -119,7 +136,18 @@ export namespace UserResolvers {
 
 export namespace MutationResolvers {
   export interface Resolvers<Context = {}, TypeParent = {}> {
+    login?: LoginResolver<LoginResponse, TypeParent, Context>;
+
     register?: RegisterResolver<RegisterResponse, TypeParent, Context>;
+  }
+
+  export type LoginResolver<
+    R = LoginResponse,
+    Parent = {},
+    Context = {}
+  > = Resolver<R, Parent, Context, LoginArgs>;
+  export interface LoginArgs {
+    input: LoginInput;
   }
 
   export type RegisterResolver<
@@ -132,14 +160,21 @@ export namespace MutationResolvers {
   }
 }
 
-export namespace RegisterResponseResolvers {
-  export interface Resolvers<Context = {}, TypeParent = RegisterResponse> {
+export namespace LoginResponseResolvers {
+  export interface Resolvers<Context = {}, TypeParent = LoginResponse> {
     errors?: ErrorsResolver<Error[] | null, TypeParent, Context>;
+
+    user?: UserResolver<User, TypeParent, Context>;
   }
 
   export type ErrorsResolver<
     R = Error[] | null,
-    Parent = RegisterResponse,
+    Parent = LoginResponse,
+    Context = {}
+  > = Resolver<R, Parent, Context>;
+  export type UserResolver<
+    R = User,
+    Parent = LoginResponse,
     Context = {}
   > = Resolver<R, Parent, Context>;
 }
@@ -159,6 +194,18 @@ export namespace ErrorResolvers {
   export type MessageResolver<
     R = string,
     Parent = Error,
+    Context = {}
+  > = Resolver<R, Parent, Context>;
+}
+
+export namespace RegisterResponseResolvers {
+  export interface Resolvers<Context = {}, TypeParent = RegisterResponse> {
+    errors?: ErrorsResolver<Error[] | null, TypeParent, Context>;
+  }
+
+  export type ErrorsResolver<
+    R = Error[] | null,
+    Parent = RegisterResponse,
     Context = {}
   > = Resolver<R, Parent, Context>;
 }

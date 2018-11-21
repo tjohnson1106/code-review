@@ -5,9 +5,9 @@ input LoginInput {
 
 type LoginResponse {
   errors: [Error!]
-  user: User!
+  user: User
 }
 
 type Mutation {
-  login: String!
+  login(input: LoginInput!): LoginResponse!
 }
