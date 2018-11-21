@@ -33,7 +33,7 @@ export const resolvers = {
       return invalidLoginResponse;
     }
 
-    const valid = argon.verify(user.password, input.password);
+    const valid = await argon.verify(user.password, input.password);
 
     if (!valid) {
       return invalidLoginResponse;
@@ -42,7 +42,7 @@ export const resolvers = {
     if (!valid) {
     }
 
-    console.log(user);
+    console.log("===", "valid!", "===");
 
     return {
       errors: [],
