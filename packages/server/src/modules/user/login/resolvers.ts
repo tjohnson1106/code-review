@@ -1,12 +1,7 @@
 import * as argon from "argon2";
 
-// import { MutationResolvers } from "../../../types";
 import { User } from "../../../entity/User";
 import { getConnection } from "typeorm";
-// import { registerSchema } from "@code-review/common";
-// import { formatYupErrors } from "../../../utils/formatYupErrors";
-
-// TODO: Context Types 112120181922
 
 const invalidLoginResponse = {
   errors: [
