@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
 import * as express from "express";
 import * as session from "express-session";
+import * as cors from "cors";
 import * as connectRedis from "connect-redis";
 import { redis } from "./redis";
 
@@ -12,10 +13,17 @@ import { createSchema } from "./createSchema";
 const SESSION_SECRET = "alskfjkdmskmv";
 const RedisStore = connectRedis(session);
 
+const corsOptions = {
+  credentials: true,
+  origin: "http://localhost:3000"
+};
+
 const startServer = async () => {
   await createTypeormConnection();
 
   const app = express();
+
+  app.use(cors(corsOptions));
 
   app.use(
     session({
@@ -41,7 +49,10 @@ const startServer = async () => {
     })
   });
 
-  server.applyMiddleware({ app });
+  server.applyMiddleware({
+    app,
+    cors: false
+  });
 
   app.listen({ port: 4000 }, () =>
     console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)

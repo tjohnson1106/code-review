@@ -1,10 +1,7 @@
 import * as argon from "argon2";
 
-// import { MutationResolvers } from "../../../types";
 import { User } from "../../../entity/User";
 import { getConnection } from "typeorm";
-// import { registerSchema } from "@code-review/common";
-// import { formatYupErrors } from "../../../utils/formatYupErrors";
 
 const invalidLoginResponse = {
   errors: [
@@ -17,7 +14,7 @@ const invalidLoginResponse = {
 };
 
 export const resolvers = {
-  login: async (_, { input }) => {
+  login: async (_, { input }, { req }) => {
     const user = await getConnection()
       .getRepository(User)
       .createQueryBuilder("user")
@@ -42,11 +39,13 @@ export const resolvers = {
     if (!valid) {
     }
 
+    req.session!.userId = user.id;
+
     console.log("===", "valid!", "===");
 
     return {
       errors: [],
-      user: null
+      user
     };
   }
 };
