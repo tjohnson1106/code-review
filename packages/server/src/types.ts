@@ -63,7 +63,7 @@ export interface RegisterMutationArgs {
 
 import { GraphQLResolveInfo } from "graphql";
 
-import { Context } from "./context";
+import { IContext } from "./context";
 
 export type Resolver<Result, Parent = {}, Context = {}, Args = {}> = (
   parent: Parent,
@@ -99,19 +99,19 @@ export type SubscriptionResolver<
   | ISubscriptionResolverObject<Result, Parent, Context, Args>;
 
 export namespace QueryResolvers {
-  export interface Resolvers<Context = Context, TypeParent = {}> {
+  export interface Resolvers<Context = IContext, TypeParent = {}> {
     me?: MeResolver<User | null, TypeParent, Context>;
   }
 
   export type MeResolver<
     R = User | null,
     Parent = {},
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context>;
 }
 
 export namespace UserResolvers {
-  export interface Resolvers<Context = Context, TypeParent = User> {
+  export interface Resolvers<Context = IContext, TypeParent = User> {
     id?: IdResolver<string, TypeParent, Context>;
 
     username?: UsernameResolver<string, TypeParent, Context>;
@@ -122,22 +122,22 @@ export namespace UserResolvers {
   export type IdResolver<
     R = string,
     Parent = User,
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context>;
   export type UsernameResolver<
     R = string,
     Parent = User,
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context>;
   export type EmailResolver<
     R = string,
     Parent = User,
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context>;
 }
 
 export namespace MutationResolvers {
-  export interface Resolvers<Context = Context, TypeParent = {}> {
+  export interface Resolvers<Context = IContext, TypeParent = {}> {
     login?: LoginResolver<LoginResponse, TypeParent, Context>;
 
     register?: RegisterResolver<RegisterResponse, TypeParent, Context>;
@@ -146,7 +146,7 @@ export namespace MutationResolvers {
   export type LoginResolver<
     R = LoginResponse,
     Parent = {},
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context, LoginArgs>;
   export interface LoginArgs {
     input: LoginInput;
@@ -155,7 +155,7 @@ export namespace MutationResolvers {
   export type RegisterResolver<
     R = RegisterResponse,
     Parent = {},
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context, RegisterArgs>;
   export interface RegisterArgs {
     input: RegisterInput;
@@ -163,7 +163,7 @@ export namespace MutationResolvers {
 }
 
 export namespace LoginResponseResolvers {
-  export interface Resolvers<Context = Context, TypeParent = LoginResponse> {
+  export interface Resolvers<Context = IContext, TypeParent = LoginResponse> {
     errors?: ErrorsResolver<Error[] | null, TypeParent, Context>;
 
     user?: UserResolver<User | null, TypeParent, Context>;
@@ -172,17 +172,17 @@ export namespace LoginResponseResolvers {
   export type ErrorsResolver<
     R = Error[] | null,
     Parent = LoginResponse,
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context>;
   export type UserResolver<
     R = User | null,
     Parent = LoginResponse,
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context>;
 }
 
 export namespace ErrorResolvers {
-  export interface Resolvers<Context = Context, TypeParent = Error> {
+  export interface Resolvers<Context = IContext, TypeParent = Error> {
     path?: PathResolver<string, TypeParent, Context>;
 
     message?: MessageResolver<string, TypeParent, Context>;
@@ -191,23 +191,26 @@ export namespace ErrorResolvers {
   export type PathResolver<
     R = string,
     Parent = Error,
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context>;
   export type MessageResolver<
     R = string,
     Parent = Error,
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context>;
 }
 
 export namespace RegisterResponseResolvers {
-  export interface Resolvers<Context = Context, TypeParent = RegisterResponse> {
+  export interface Resolvers<
+    Context = IContext,
+    TypeParent = RegisterResponse
+  > {
     errors?: ErrorsResolver<Error[] | null, TypeParent, Context>;
   }
 
   export type ErrorsResolver<
     R = Error[] | null,
     Parent = RegisterResponse,
-    Context = Context
+    Context = IContext
   > = Resolver<R, Parent, Context>;
 }
