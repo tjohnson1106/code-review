@@ -44,13 +44,13 @@ export const resolvers = {
     if (!valid) {
     }
 
-    req.session.userId = user.id;
+    req.session!.userId = user.id;
 
     console.log("===", "valid!", "===");
 
     return {
       errors: [],
-      user: null
+      user
     };
   }
 };
